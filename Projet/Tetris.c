@@ -4,7 +4,7 @@
 
 
 
-//affichage map
+//La structure map
 struct map
 {
 	unsigned ligne;
@@ -15,13 +15,22 @@ struct map
 
 typedef struct map map;
 
+
+
+//la structure piece
 struct piece
 {
 	map m;
+	int maxLigne ;
+	int maxColonne;
+	//declarer un tableau de piece
+	piece tabPiece[10];
 };
 typedef struct piece piece;
 
 
+
+//La fonction creer map
 map createmap(unsigned l, unsigned c)
 {
 	map M={0,0,NULL};
@@ -36,6 +45,9 @@ map createmap(unsigned l, unsigned c)
 	return M;
 }
 
+
+
+//La fonction afficher map
 void affichagemap(map M)
 {
 	int i;
@@ -49,6 +61,8 @@ void affichagemap(map M)
 	return;
 }
 
+
+//La fonction liberer map
 void libererMap(map M)
 {
     if(M.tete!=NULL)
@@ -66,13 +80,16 @@ void libererMap(map M)
 
 
 
-//creer piece
 
+
+//creer piece
 piece createpiece(char Ch)
 {
 	piece p;
-
 	p.m=createmap(3,3);
+	p.maxLigne=0;
+	p.maxColonne=0;
+
 	int i=0;
 	int j=0;;
 	int k;
@@ -82,43 +99,58 @@ piece createpiece(char Ch)
 			p.m.tete[i][j]=0;
 
 		if(ch[k]=="*")
+		{
 			p.m.tete[i][j]==1;
-		j++
-		if (ch[k]=="\n")
+			
+			if (k/4 > p.maxLigne)
+				p.maxLigne=k/4;
+
+			if (k%4 > p.maxColonne)
+				p.maxColonne=k%4;
+		}
+		j++;
+		
+		if(ch[k]=="\n")
 			i++;
-			j=0;	
+			j=0;
 	}
+
 	return p;
 }
 
 
 
+
+
+
+
+
 //la fonction verifier
-void check(map M,piece P,int i, int j)
+void Check(map M,piece P,int i, int j)
 {
 	int i;
 	int j;
 	int k=0;
 	int l=0;
-
-	//iterer et garder les max
-	// regerder si les max + i et j inferieur aux colonnes et lignes et appliquer la boucler sino  return 0
 	
-	for(i=0;i<M.ligne && k < 3;i++)
+	if((p.maxLigne + i)<M.ligne  && (p.maxColonne+j)<M.colonne)
 	{
-		
-		for (j=0;j<M.colonne && l < 3;j++)
+		for(i=0;i<M.ligne && k<3;i++)
 		{
+		
+			for (j=0;j<M.colonne && l<3;j++)
+			{
 
-			if(p.m.tete[k][l]=="*")
-				if(M.tete[i][j]=="*")
-					return 0;
-		l++;
+				if(p.m.tete[k][l]=="*")
+					if(M.tete[i][j]=="*")
+						return 1;
+			l++;
 				
+			}
+		k++;
 		}
-	k++;
-	} 
-	return 1;
+	}
+	return 0;
 
 }
 
@@ -126,19 +158,44 @@ void check(map M,piece P,int i, int j)
 
 
 
-//placer la piece dans la map si check =0; 
-void PlacerPiece(map M, piece P)
+//placer la piece dans la map si check =1; 
+int PlacerPiece(map M, piece P,int i, int j)
 {
-	int i;
-	int j;
-	for(i=0;i<M.ligne;i++)
-	{
-		for (j=0;j<M.colonne;j++)
-			M.tete[i][j]=P.m.tete[i][j];
+	int k;
+	int l;
+	if (Check(map M, piece P,int i, int j)==1)
+	{	
+		for(k=i;k<M.ligne;k++)
+		{
+			for (l=j;l<M.colonne;l++)
+				M.tete[k][l]=P.m.tete[k-i][l-i];			
+		}
+		return 1;
+
 	} 
-	return;
+	return 0;
 }
 
+
+
+//La fonction Backtraking
+
+void Backtraking(Map M,Piece P)
+{
+	int k;
+	int l;
+	for(k=i;k<M.ligne;k++)
+		{
+			for (l=j;l<M.colonne;l++)
+			{
+				if(PlacerPiece(map M, piece P,int i, int j)==1)
+					for(n=1;n<10;n++)
+						Backtraking(Map M, P.tabPiece[n])
+			}
+		}
+
+
+}
 
 
 
@@ -146,6 +203,14 @@ void PlacerPiece(map M, piece P)
 
 
 //Placer toutes les pieces
+void tetris()
+{
+
+
+
+
+
+}
 
 
 
