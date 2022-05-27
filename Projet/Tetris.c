@@ -67,28 +67,6 @@ void libererMap(map M)
 
 
 //creer piece
-piece createpiece(char Ch)
-{
-	M=createmap(3,3);
-	int i;
-	While (j<M.ligne);
-	{
-		for (i=0;i<strlen(ch);i++)
-		{
-			while(ch[i]!="\n")
-			{
-				if(ch[i]==0)
-					M.tete[i]=M.tete[i]+1;
-				M.tete[i]=1;
-				i++;
-			}
-			i++;
-			j++;
-		}
-	}
-	return M;
-}
-
 
 piece createpiece(char Ch)
 {
@@ -143,6 +121,8 @@ void check(map M,piece P,int i, int j)
 	return 1;
 
 }
+
+
 
 
 
